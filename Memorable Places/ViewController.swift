@@ -16,7 +16,15 @@ class ViewController: UIViewController, MKMapViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        print(activePlace)
+        //print(activePlace)
+        
+        let uilpgr = UILongPressGestureRecognizer(target: self, action: #selector(ViewController.longpress(gestureRecognizer:)))
+        
+        uilpgr.minimumPressDuration = 2
+        
+        map.addGestureRecognizer(uilpgr)
+        
+        
         if activePlace != -1 {
             //get place details to displcay on map
             if places.count > activePlace {
@@ -49,6 +57,63 @@ class ViewController: UIViewController, MKMapViewDelegate {
                 }
             }
         }
+    }
+    
+    @objc func longpress (gestureRecognizer: UIGestureRecognizer) {
+        
+        if gestureRecognizer.state == UIGestureRecognizer.State.began {
+            
+            let touchPoint = gestureRecognizer.location(in: self.map)
+            
+            let newCoordinate = self.map.convert(touchPoint, toCoordinateFrom: self.map)
+            
+            let location = CLLocation(latitude: newCoordinate.latitude, longitude: newCoordinate.longitude)
+            
+            var title = ""
+            
+            CLGeocoder().reverseGeocodeLocation(location, completionHandler: { (placemarks, error) in
+                
+                if error != nil {
+                
+                    print(error)
+                    
+                } else {
+                    
+                    if let placemark = placemarks?[0] {
+                        
+                        if placemark.subThoroughfare != nil {
+                            title += placemark.subThoroughfare! + " "
+                        }
+                        
+                        if placemark.thoroughfare != nil {
+                            title += placemark.thoroughfare! + " "
+                        }
+                        
+                    }
+                    
+                }
+                
+                if title == "" {
+                    title = "Added \(NSDate())"
+                }
+                
+                let annotation = MKPointAnnotation()
+                
+                annotation.coordinate = newCoordinate
+                
+                annotation.title = title
+                
+                self.map.addAnnotation(annotation)
+                
+                places.append(["name": title, "lat":String(newCoordinate.latitude), "lon":String(newCoordinate.longitude)])
+                
+                print(places)
+                
+            })
+            
+            
+        }
+        
     }
 
 
