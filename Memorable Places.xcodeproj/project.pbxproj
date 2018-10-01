@@ -13,6 +13,7 @@
 		D51CBF6F215AEB9600479E1D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D51CBF6E215AEB9600479E1D /* Assets.xcassets */; };
 		D51CBF72215AEB9600479E1D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D51CBF70215AEB9600479E1D /* LaunchScreen.storyboard */; };
 		D51CBF7A215D45C600479E1D /* PlacesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D51CBF79215D45C600479E1D /* PlacesViewController.swift */; };
+		D51CBF7D215EE56F00479E1D /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D51CBF7C215EE56F00479E1D /* CoreLocation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		D51CBF71215AEB9600479E1D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D51CBF73215AEB9600479E1D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D51CBF79215D45C600479E1D /* PlacesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesViewController.swift; sourceTree = "<group>"; };
+		D51CBF7C215EE56F00479E1D /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,6 +33,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D51CBF7D215EE56F00479E1D /* CoreLocation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -42,6 +45,7 @@
 			children = (
 				D51CBF66215AEB9400479E1D /* Memorable Places */,
 				D51CBF65215AEB9400479E1D /* Products */,
+				D51CBF7B215EE56F00479E1D /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -65,6 +69,14 @@
 				D51CBF73215AEB9600479E1D /* Info.plist */,
 			);
 			path = "Memorable Places";
+			sourceTree = "<group>";
+		};
+		D51CBF7B215EE56F00479E1D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D51CBF7C215EE56F00479E1D /* CoreLocation.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

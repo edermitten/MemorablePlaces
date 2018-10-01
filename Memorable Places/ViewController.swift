@@ -8,10 +8,13 @@
 
 import UIKit
 import MapKit
+import CoreLocation
 
-class ViewController: UIViewController, MKMapViewDelegate {
+class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
 
     @IBOutlet var map: MKMapView!
+    
+    var manager = CLLocationManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,14 +28,30 @@ class ViewController: UIViewController, MKMapViewDelegate {
         map.addGestureRecognizer(uilpgr)
         
         
-        if activePlace != -1 {
+        if activePlace == -1 {
+            
+            manager.delegate = self
+            manager.desiredAccuracy = kCLLocationAccuracyBest
+            manager.requestWhenInUseAuthorization()
+            manager.startUpdatingLocation()
+            
+            
+        }
+        else {
+            
             //get place details to displcay on map
             if places.count > activePlace {
+                
                 if let name = places[activePlace]["name"] {
+                    
                     if let lat = places[activePlace]["lat"] {
+                        
                         if let lon = places[activePlace]["lon"] {
+                            
                             if let latitude = Double(lat){
+                                
                                 if let longitude = Double(lon){
+                                    
                                     let span = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
                                     
                                     let coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
@@ -82,10 +101,12 @@ class ViewController: UIViewController, MKMapViewDelegate {
                     if let placemark = placemarks?[0] {
                         
                         if placemark.subThoroughfare != nil {
+                            
                             title += placemark.subThoroughfare! + " "
                         }
                         
                         if placemark.thoroughfare != nil {
+                            
                             title += placemark.thoroughfare! + " "
                         }
                         
@@ -94,7 +115,9 @@ class ViewController: UIViewController, MKMapViewDelegate {
                 }
                 
                 if title == "" {
+                    
                     title = "Added \(NSDate())"
+                    
                 }
                 
                 let annotation = MKPointAnnotation()
@@ -107,14 +130,26 @@ class ViewController: UIViewController, MKMapViewDelegate {
                 
                 places.append(["name": title, "lat":String(newCoordinate.latitude), "lon":String(newCoordinate.longitude)])
                 
-                print(places)
+                UserDefaults.standard.set(places, forKey: "places")
                 
             })
-            
             
         }
         
     }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        
+        let location = CLLocationCoordinate2D(latitude: locations[0].coordinate.latitude, longitude: locations[0].coordinate.longitude)
+        
+        let span = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
+        
+        let region = MKCoordinateRegion(center: location, span: span)
+        
+        self.map.setRegion(region, animated: true)
+        
+    }
+    
 
 
 }
